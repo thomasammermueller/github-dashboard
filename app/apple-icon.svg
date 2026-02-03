@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" fill="none">
+  <!-- Background -->
+  <rect width="180" height="180" rx="40" fill="#1a1a2e"/>
+
+  <!-- Main circle representing data/hub -->
+  <circle cx="90" cy="65" r="35" fill="#3b82f6"/>
+
+  <!-- Dashboard bars -->
+  <rect x="40" y="115" width="25" height="40" rx="4" fill="#22c55e"/>
+  <rect x="78" y="100" width="25" height="55" rx="4" fill="#3b82f6"/>
+  <rect x="115" y="120" width="25" height="35" rx="4" fill="#a855f7"/>
+
+  <!-- Connection dots on circle -->
+  <circle cx="55" cy="65" r="8" fill="#fff"/>
+  <circle cx="90" cy="45" r="8" fill="#fff"/>
+  <circle cx="125" cy="65" r="8" fill="#fff"/>
+
+  <!-- Connecting lines -->
+  <line x1="55" y1="65" x2="90" y2="45" stroke="#fff" stroke-width="3" opacity="0.5"/>
+  <line x1="90" y1="45" x2="125" y2="65" stroke="#fff" stroke-width="3" opacity="0.5"/>
+</svg>
