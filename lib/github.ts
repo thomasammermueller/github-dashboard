@@ -61,6 +61,19 @@ class GitHubClient {
       const searchParams = new URLSearchParams({ per_page: String(params.per_page || 100) });
       return { data: await this.request("GET", `/repos/${params.owner}/${params.repo}/collaborators?${searchParams}`) };
     },
+    listCommits: async (params: { owner: string; repo: string; sha?: string; author?: string; since?: string; until?: string; per_page?: number }) => {
+      const { owner, repo, ...rest } = params;
+      const searchParams = new URLSearchParams(this.cleanParams(rest));
+      return { data: await this.request("GET", `/repos/${owner}/${repo}/commits?${searchParams}`) };
+    },
+    getCommit: async (params: { owner: string; repo: string; ref: string }) => {
+      return { data: await this.request("GET", `/repos/${params.owner}/${params.repo}/commits/${params.ref}`) };
+    },
+    listBranches: async (params: { owner: string; repo: string; per_page?: number }) => {
+      const { owner, repo, ...rest } = params;
+      const searchParams = new URLSearchParams(this.cleanParams({ per_page: rest.per_page || 100 }));
+      return { data: await this.request("GET", `/repos/${owner}/${repo}/branches?${searchParams}`) };
+    },
   };
 
   // Issues

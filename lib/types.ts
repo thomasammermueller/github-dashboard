@@ -166,3 +166,39 @@ export interface RepoContext {
   owner: string;
   repo: string;
 }
+
+export interface Commit {
+  sha: string;
+  html_url: string;
+  commit: {
+    message: string;
+    author: {
+      name: string;
+      email: string;
+      date: string;
+    };
+  };
+  author: User | null;
+  repository?: {
+    full_name: string;
+    owner: {
+      login: string;
+    };
+    name: string;
+  };
+}
+
+export interface CommitFilters {
+  sha?: string;
+  author?: string;
+  since?: string;
+  until?: string;
+}
+
+export interface Branch {
+  name: string;
+  commit: {
+    sha: string;
+  };
+  protected: boolean;
+}

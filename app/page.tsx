@@ -4,6 +4,7 @@ import Link from "next/link";
 import {
   CircleDot,
   GitPullRequest,
+  GitCommit,
   Bell,
   Star,
   GitFork,
@@ -12,10 +13,12 @@ import {
 import { useRepos, useSelectedRepoContext } from "@/hooks/useRepos";
 import { useIssues } from "@/hooks/useIssues";
 import { usePullRequests } from "@/hooks/usePulls";
+import { useCommits } from "@/hooks/useCommits";
 import { useNotifications } from "@/hooks/useNotifications";
 import { LoadingPage, Spinner } from "@/components/ui/Spinner";
 import { IssueCard } from "@/components/issues/IssueCard";
 import { PullCard } from "@/components/pulls/PullCard";
+import { CommitCard } from "@/components/commits/CommitCard";
 import type { Repository } from "@/lib/types";
 
 function StatCard({
@@ -104,9 +107,10 @@ export default function DashboardPage() {
   const { data: repos, isLoading: reposLoading } = useRepos();
   const { data: issues, isLoading: issuesLoading } = useIssues({ state: "open" });
   const { data: pulls, isLoading: pullsLoading } = usePullRequests("open");
+  const { data: commits, isLoading: commitsLoading } = useCommits();
   const { data: notifications, isLoading: notificationsLoading } = useNotifications();
 
-  const isLoading = reposLoading || issuesLoading || pullsLoading || notificationsLoading;
+  const isLoading = reposLoading || issuesLoading || pullsLoading || commitsLoading || notificationsLoading;
 
   if (isLoading) {
     return <LoadingPage />;
@@ -114,16 +118,18 @@ export default function DashboardPage() {
 
   const openIssues = issues?.length || 0;
   const openPRs = pulls?.length || 0;
+  const totalCommits = commits?.length || 0;
   const unreadNotifications = notifications?.filter((n) => n.unread).length || 0;
 
   const recentIssues = issues?.slice(0, 5) || [];
   const recentPRs = pulls?.slice(0, 5) || [];
+  const recentCommits = commits?.slice(0, 5) || [];
   const topRepos = repos?.slice(0, 6) || [];
 
   return (
     <div className="space-y-8">
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           title="Open Issues"
           value={openIssues}
@@ -137,6 +143,13 @@ export default function DashboardPage() {
           icon={GitPullRequest}
           href="/pulls"
           color="bg-blue-500"
+        />
+        <StatCard
+          title="Recent Commits"
+          value={totalCommits}
+          icon={GitCommit}
+          href="/commits"
+          color="bg-orange-500"
         />
         <StatCard
           title="Unread Notifications"
@@ -203,6 +216,32 @@ export default function DashboardPage() {
                 />
               );
             })}
+          </div>
+        </div>
+      )}
+
+      {/* Recent Commits */}
+      {recentCommits.length > 0 && (
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+              Recent Commits
+            </h2>
+            <Link
+              href="/commits"
+              className="text-sm text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+            >
+              View all <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+          <div className="space-y-3">
+            {recentCommits.map((commit) => (
+              <CommitCard
+                key={commit.sha}
+                commit={commit}
+                showRepo={!repoContext}
+              />
+            ))}
           </div>
         </div>
       )}

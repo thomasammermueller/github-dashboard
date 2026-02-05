@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   CircleDot,
   GitPullRequest,
+  GitCommit,
   Bell,
   Github,
 } from "lucide-react";
@@ -14,6 +15,7 @@ const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
   { name: "Issues", href: "/issues", icon: CircleDot },
   { name: "Pull Requests", href: "/pulls", icon: GitPullRequest },
+  { name: "Commits", href: "/commits", icon: GitCommit },
   { name: "Notifications", href: "/notifications", icon: Bell },
 ];
 
